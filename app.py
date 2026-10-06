@@ -3,47 +3,50 @@ import google.generativeai as genai
 import time
 import re
 
-# --- 1. Page Configuration & Custom CSS ---
+# --- 1. Page Configuration & Modern Glassmorphism CSS ---
 st.set_page_config(
     page_title="Agentic AI Code Auditor",
-    page_icon="🛡️",
+    page_icon="🛡️️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# High-Contrast Modern Custom Styling
+# Custom High-End Modern Styling
 st.markdown("""
 <style>
-    /* Global Text Contrast Overrides */
+    /* Dark Glassmorphism App Background */
     .stApp {
-        background-color: #0F172A;
-        color: #F8FAFC;
+        background: #0B0F19;
+        color: #F3F4F6;
     }
     
-    /* Hero Header */
-    .hero-container {
-        background: linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4338CA 100%);
-        padding: 2rem;
+    /* Hero Banner Styling */
+    .hero-card {
+        background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(49, 46, 129, 0.7) 100%);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(99, 102, 241, 0.3);
         border-radius: 16px;
-        border: 1px solid #6366F1;
-        box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.3);
+        padding: 2.5rem;
         margin-bottom: 2rem;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     }
     .hero-title {
-        font-size: 2.2rem;
+        font-size: 2.4rem;
         font-weight: 800;
-        color: #FFFFFF !important;
+        background: linear-gradient(90deg, #6366F1 0%, #A855F7 50%, #EC4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin-bottom: 0.5rem;
     }
     .hero-subtitle {
-        font-size: 1.05rem;
-        color: #C7D2FE !important;
-        margin-bottom: 0;
+        font-size: 1.1rem;
+        color: #9CA3AF !important;
+        line-height: 1.5;
     }
-    
-    /* Section Titles with explicit contrast */
-    .section-header {
-        font-size: 1.4rem;
+
+    /* Section Headers */
+    .section-title {
+        font-size: 1.3rem;
         font-weight: 700;
         color: #38BDF8 !important;
         margin-bottom: 1rem;
@@ -51,37 +54,47 @@ st.markdown("""
         align-items: center;
         gap: 0.5rem;
     }
-    
-    /* Tab & Card Styling */
-    .agent-card-arch {
-        background-color: #1E293B;
-        border-left: 5px solid #38BDF8;
-        padding: 1.2rem;
-        border-radius: 8px;
-        color: #F1F5F9;
+
+    /* Agent Output Cards */
+    .agent-box {
+        background: rgba(17, 24, 39, 0.8);
+        border-radius: 12px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        margin-bottom: 1rem;
     }
-    .agent-card-sec {
-        background-color: #1E293B;
-        border-left: 5px solid #F59E0B;
+    .agent-box-arch { border-top: 4px solid #38BDF8; }
+    .agent-box-sec { border-top: 4px solid #F59E0B; }
+    .agent-box-lead { border-top: 4px solid #10B981; }
+
+    /* Custom Metric Badges */
+    .metric-card {
+        background: #111827;
+        border: 1px solid #1F2937;
+        border-radius: 12px;
         padding: 1.2rem;
-        border-radius: 8px;
-        color: #F1F5F9;
+        text-align: center;
     }
-    .agent-card-lead {
-        background-color: #1E293B;
-        border-left: 5px solid #10B981;
-        padding: 1.2rem;
-        border-radius: 8px;
-        color: #F1F5F9;
+    .metric-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #6366F1;
+    }
+    .metric-label {
+        font-size: 0.9rem;
+        color: #9CA3AF;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# --- Hero Header ---
+# --- Hero Banner ---
 st.markdown("""
-<div class="hero-container">
+<div class="hero-card">
     <div class="hero-title">🛡️ Agentic AI Code Auditor & Security Engine</div>
-    <div class="hero-subtitle">Autonomous multi-agent orchestration for static code review, OWASP security scanning, and automated refactoring powered by Google Gemini.</div>
+    <div class="hero-subtitle">Autonomous multi-agent orchestration for static code analysis, OWASP security scanning, and automated refactoring powered by Google Gemini.</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -100,7 +113,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### 🤖 Engine Capabilities")
     st.caption("• Architectural SOLID Review")
-    st.caption("• OWASP Security Vulnerability Scan")
+    st.caption("• OWASP Vulnerability Scan")
     st.caption("• Multi-Agent Lead Review Synthesis")
 
 # Pre-defined sample snippets
@@ -155,7 +168,7 @@ elif sample_choice == "Clean SQL Query":
 col1, col2 = st.columns([1, 1], gap="large")
 
 with col1:
-    st.markdown('<div class="section-header">📄 Source Code Input</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">📄 Source Code Input</div>', unsafe_allow_html=True)
     
     uploaded_file = st.file_uploader(
         "Upload Code File (.py, .js, .cpp, .java, .sql)",
@@ -173,7 +186,7 @@ with col1:
         st.info("💡 Upload a source code file or select a pre-loaded sample script from the sidebar to test.")
 
 with col2:
-    st.markdown('<div class="section-header">🤖 Multi-Agent Analysis</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">🤖 Multi-Agent Analysis</div>', unsafe_allow_html=True)
     
     run_button = st.button("⚡ Run Multi-Agent Audit", type="primary", use_container_width=True)
     
@@ -181,7 +194,7 @@ with col2:
         if not api_key:
             st.error("⚠️ Please enter your Gemini API Key in the sidebar.")
         elif not code_content:
-            st.warning("⚠️️ Please upload a file or select a pre-loaded sample script.")
+            st.warning("⚠️ Please upload a file or select a pre-loaded sample script.")
         else:
             try:
                 genai.configure(api_key=api_key)
@@ -190,26 +203,26 @@ with col2:
                 with st.status("🔍 Orchestrating AI Agents...", expanded=True) as status:
                     # Agent 1
                     st.write("🏗️ **Architectural Agent:** Evaluating design patterns, modularity, and readability...")
-                    arch_prompt = f"Analyze code architecture, design patterns, and readability. Use clear bullet points:\n\n```\n{code_content}\n```"
+                    arch_prompt = f"Analyze code architecture, design patterns, and readability concise bullet points:\n\n```\n{code_content}\n```"
                     arch_res = model.generate_content(arch_prompt).text
                     time.sleep(0.3)
                     
                     # Agent 2
-                    st.write("🛡️ **Security Agent:** Scanning for OWASP vulnerabilities, injection risks, and secret exposure...")
-                    sec_prompt = f"Analyze security vulnerabilities, injection risks, and key leaks. Use clear bullet points:\n\n```\n{code_content}\n```"
+                    st.write("🛡️ **Security Agent:** Scanning for OWASP vulnerabilities, injection risks, and key exposure...")
+                    sec_prompt = f"Analyze security vulnerabilities, injection risks, and key leaks in concise bullet points:\n\n```\n{code_content}\n```"
                     sec_res = model.generate_content(sec_prompt).text
                     time.sleep(0.3)
                     
                     # Agent 3
                     st.write("👨‍💻 **Lead Reviewer Agent:** Synthesizing final findings and assigning code health score...")
-                    lead_prompt = f"""Synthesize these agent reviews into a comprehensive summary report.
-                    Architecture Review: {arch_res}
-                    Security Audit: {sec_res}
+                    lead_prompt = f"""Synthesize these reviews into a summary report.
+                    Architecture: {arch_res}
+                    Security: {sec_res}
                     
-                    Format output clearly with:
-                    1. Health Score: Provide numeric score X/100
-                    2. Key Executive Summary
-                    3. Recommended Refactoring Actions
+                    Format:
+                    Score: [Provide numeric score X/100]
+                    Key Findings: [Bullet points]
+                    Recommendations: [Bullet points]
                     """
                     lead_res = model.generate_content(lead_prompt).text
                     status.update(label="✅ Audit Completed Successfully!", state="complete", expanded=False)
@@ -219,39 +232,43 @@ with col2:
                 score_val = score_match.group(1) if score_match else "80"
                 score_int = int(score_val) if score_val.isdigit() else 80
                 
-                # Metrics Dashboard
-                st.markdown("### 📊 Audit Summary Dashboard")
+                # Custom Metric Dashboard
+                st.markdown("### 📊 Executive Metrics")
                 m1, m2, m3 = st.columns(3)
-                m1.metric("Code Health Score", f"{score_int}/100")
-                m2.metric("OWASP Security", "Scanned")
-                m3.metric("Architecture", "Audited")
+                with m1:
+                    st.markdown(f'<div class="metric-card"><div class="metric-value">{score_int}/100</div><div class="metric-label">Health Score</div></div>', unsafe_allow_html=True)
+                with m2:
+                    st.markdown('<div class="metric-card"><div class="metric-value">OWASP</div><div class="metric-label">Security Scan</div></div>', unsafe_allow_html=True)
+                with m3:
+                    st.markdown('<div class="metric-card"><div class="metric-value">SOLID</div><div class="metric-label">Architecture</div></div>', unsafe_allow_html=True)
                 
+                st.markdown("<br>", unsafe_allow_html=True)
                 st.progress(score_int / 100, text=f"Overall Code Health: {score_int}%")
                 st.markdown("---")
                 
-                # Tabbed Output Section
+                # Tabbed Detailed Findings
                 st.markdown("### 🔍 Agent Detailed Outputs")
-                tab1, tab2, tab3 = st.tabs(["🏗️ Architectural Review", "🛡️ Security Audit", "👨‍💻 Lead Reviewer Report"])
+                tab1, tab2, tab3 = st.tabs(["🏗️️ Architectural Review", "🛡️ Security Audit", "👨‍💻 Lead Reviewer Report"])
                 
                 with tab1:
-                    st.markdown('<div class="agent-card-arch">', unsafe_allow_html=True)
+                    st.markdown('<div class="agent-box agent-box-arch">', unsafe_allow_html=True)
                     st.markdown(arch_res)
                     st.markdown('</div>', unsafe_allow_html=True)
                     
                 with tab2:
-                    st.markdown('<div class="agent-card-sec">', unsafe_allow_html=True)
+                    st.markdown('<div class="agent-box agent-box-sec">', unsafe_allow_html=True)
                     st.markdown(sec_res)
                     st.markdown('</div>', unsafe_allow_html=True)
                     
                 with tab3:
-                    st.markdown('<div class="agent-card-lead">', unsafe_allow_html=True)
+                    st.markdown('<div class="agent-box agent-box-lead">', unsafe_allow_html=True)
                     st.markdown(lead_res)
                     st.markdown('</div>', unsafe_allow_html=True)
                 
                 st.markdown("---")
                 
                 # Download Report Button
-                full_report = f"# Multi-Agent Code Audit Report\n\nHealth Score: {score_val}/100\n\n## 🏗️ Architectural Review\n{arch_res}\n\n## 🛡️ Security Review\n{sec_res}\n\n## 👨‍💻 Lead Reviewer Summary\n{lead_res}"
+                full_report = f"# Multi-Agent Code Audit Report\n\nHealth Score: {score_val}/100\n\n## 🏗️ Architectural Review\n{arch_res}\n\n## 🛡️ Security Review\n{sec_res}\n\n## 👨‍‍💻 Lead Reviewer Summary\n{lead_res}"
                 st.download_button(
                     label="📥 Download Complete Audit Report (.md)",
                     data=full_report,
